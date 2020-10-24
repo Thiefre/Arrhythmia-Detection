@@ -10,7 +10,7 @@ from PIL import ImageEnhance
 import numpy
 import os
 
-path = 'remove_all_red'
+path = 'red_channel_thresholded'
 try:
     files = os.listdir(path)
     count = len(files)+1
@@ -39,24 +39,23 @@ enh_sha = ImageEnhance.Sharpness(image_contrasted)
 sharpness = 1.3
 image_enhanced = enh_sha.enhance(sharpness)
 
+
 image_enhanced.show()
 
 pil_image = image_enhanced.convert('RGB') 
 cvimage = numpy.array(pil_image) 
 cvimage = cvimage[:, :, ::-1].copy() 
 
-bilateral = cv.bilateralFilter(cvimage, 10, 10, 100) 
-
-# hsv = cv.cvtColor(bilateral, cv.COLOR_BGR2HSV)
-# mask1 = cv.inRange(hsv, (0, 10, 20), (15, 255, 255))
-# mask2 = cv.inRange(hsv, (165, 10, 20), (180, 255, 255))
-# mask = cv.bitwise_or(mask1,mask2)
-
 (b,g,r) = cv.split(cvimage)
 
-ret,redThresh = cv.threshold(r, 80, 255, cv.THRESH_BINARY)
+ret, thresh = cv.threshold(r, 150, 255, cv.THRESH_BINARY)
 
-cv.imwrite(path + '/'+ path + str(count)+'.jpg', redThresh)
+thresh = cv.medianBlur(thresh, 3)
+
+cv.imshow('thresh', thresh)
+cv.waitKey()
+
+cv.imwrite(path + '/'+ path + str(count)+'.jpg', thresh)
 
 
 # ret,thresh = cv.threshold(img_gray,120,255,cv.THRESH_BINARY)

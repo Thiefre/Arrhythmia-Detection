@@ -28,7 +28,7 @@ for rho,theta in lines[0]:
     
 #Rotates image to make the detected line horizontal
 
-img_rotated = ndimage.rotate(img, 180*theta/3.1415926-(90))
+img_rotated = ndimage.rotate(img, 180*theta/3.1415926-(90), cval = 255)
 
 #Writes the image to destination
 cv2.imwrite('rotated_houghtransform.jpg',img_rotated)
