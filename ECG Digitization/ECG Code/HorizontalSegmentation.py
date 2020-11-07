@@ -45,20 +45,19 @@ for item in vertical_files:
         elif count-start >= 40 and proj[i][0] > 2000:
             if ((count-start)/2)+start - startCrop > 40:
                 if int((count-start)/2)+start <= height:
-                    crop_img = img[startCrop:int((count-start)/2)+start, 0:width]
-                    print(((count-start)/2)+start, startCrop, item[:len(item)-4])
-                    cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
-                elif int((count-start)/2)+start > height:
-                    crop_img = img[startCrop:height, 0:width]
-                    cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
+                    if( (((count-start)/2)+start) - startCrop >= 50):
+                        crop_img = img[startCrop:int((count-start)/2)+start, 0:width]
+                        print(((count-start)/2)+start, startCrop, item[:len(item)-4])
+                        cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
             index += 1
             count = i
             start = i
             startCrop = i
         else:
             start = i
-    crop_img = img[startCrop:height, 0:width]
-    cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
+    if( (((count-start)/2)+start) - startCrop >= 50):
+        crop_img = img[startCrop:height, 0:width]
+        cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
     index = 0
 # Save result
 # cv2.imwrite(path + '/'+ path + str(count)+'_'+str(index)+'.jpg', result)
