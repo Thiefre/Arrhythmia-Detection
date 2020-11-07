@@ -49,10 +49,10 @@ for item in vertical_files:
         # This will only enter at the start of a signal; at the start of the next signal it will crop
         elif count-start >= 30 and proj[i][0] > 1500:
             # If the cropping image is bigger than 50 pixels in height, then crop
-            if (((count-start)/2)+start) - startCrop >= 50:
+            if (start - startCrop >= 30):
                 if((count-start)/2)+start <= height:
                         # Crops the image based on the start of the next signal, the start of the previous whitespace, and the inital cropping index
-                        crop_img = img[startCrop:int((count-start)/2)+start, 0:width]
+                        crop_img = img[startCrop:start, 0:width]
                         cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
                         index += 1
             # Sets the index to start cropping
@@ -63,9 +63,8 @@ for item in vertical_files:
         # This will indicate the starting point of new whitespace
         else:
             start = i
-            # print(((count-start)/2)+start, startCrop, count , start, item[:len(item)-4])
-    if( (((count-start)/2)+start) - startCrop >= 50):
-        crop_img = img[startCrop:height, 0:width]
+    if( start - startCrop >= 30):
+        crop_img = img[startCrop:start, 0:width]
         cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
     index = 0
 # Save result
