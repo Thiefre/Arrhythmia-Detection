@@ -63,7 +63,7 @@ for i in range(a):
 pointset.sort()
 oldX = 0
 for points in pointset:
-    crop_img = threshimg[0:points[1], oldX+5:points[0]-5]
+    crop_img = threshimg[0:points[1], oldX+1:points[0]-1]
     oldX = points[0]
     cv2.imwrite(path + '/'+ path + str(count)+'_'+str(index)+'.jpg', crop_img)
     index += 1
