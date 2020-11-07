@@ -35,26 +35,35 @@ for item in vertical_files:
     plt.xlim([0, height])
     plt.draw()
     
+    # Index of where to begin the cropping
     startCrop = 0
+    # Index of where whitespace starts
     start = 0
+    # Scans from top to bottom, the length of the image
     for i in range(0, height):
         count = i
-        # print(proj[i][0], i)
-        if proj[i][0] <= 2000:
-            count += 1
-        elif count-start >= 30 and proj[i][0] > 2000:
-            if ((count-start)/2)+start - startCrop > 30:
-                if int((count-start)/2)+start <= height:
-                    if( (((count-start)/2)+start) - startCrop >= 50):
+        # If that row has whitespace, do nothing and go to next row
+        if proj[i][0] <= 1500:
+            pass
+        # If that row is not whitespace, and there has been consecutively at least 30 whitespaces before, start the crop
+        # This will only enter at the start of a signal; at the start of the next signal it will crop
+        elif count-start >= 30 and proj[i][0] > 1500:
+            # If the cropping image is bigger than 50 pixels in height, then crop
+            if (((count-start)/2)+start) - startCrop >= 50:
+                if((count-start)/2)+start <= height:
+                        # Crops the image based on the start of the next signal, the start of the previous whitespace, and the inital cropping index
                         crop_img = img[startCrop:int((count-start)/2)+start, 0:width]
-                        print(((count-start)/2)+start, startCrop, item[:len(item)-4])
                         cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
                         index += 1
+            # Sets the index to start cropping
             count = i
             start = i
             startCrop = i
+        # If that row is not whitespace, and there is no whitespace before
+        # This will indicate the starting point of new whitespace
         else:
             start = i
+            # print(((count-start)/2)+start, startCrop, count , start, item[:len(item)-4])
     if( (((count-start)/2)+start) - startCrop >= 50):
         crop_img = img[startCrop:height, 0:width]
         cv2.imwrite(path + '/'+ item[:len(item)-4] +'_'+str(index)+'.jpg', crop_img)
