@@ -158,6 +158,8 @@ fs = 360
 
 X_all, Y_all, sym_all = make_dataset(pts, num_sec, fs, abnormal)
 print(X_all)
+
+
 X_all = X_all.reshape((X_all.shape[0], X_all.shape[1], 1))
 # X_all (samples, timesteps*size of signals in time*, features = 1))
 # X samples ({points of where beats occur})

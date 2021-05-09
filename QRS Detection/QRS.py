@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import pathlib
 import scipy.io
 from ecgdetectors import Detectors
+import neurokit2 as nk
 
 
 example_dir = 'ECG.tsv'
@@ -19,9 +20,6 @@ mat = 'A0001.mat'
 mat_ecg = scipy.io.loadmat(mat)
 
 _val = mat_ecg['val']
-print(_val)
-plt.figure()
-plt.plot(_val)
 plt.xlim([0, 0.1])
 plt.ylim([0, 10])
 plt.show()
@@ -64,3 +62,9 @@ plt.xlim([0,2000])
 plt.show()
 
 print(my_ecg[r_peaks])
+
+_, waves_peak = nk.ecg_delineate(my_ecg, r_peaks, sampling_rate=125)
+plot = nk.events_plot([waves_peak['ECG_T_Peaks'],
+                       waves_peak['ECG_P_Peaks'],
+                       waves_peak['ECG_Q_Peaks'],
+                       waves_peak['ECG_S_Peaks']], my_ecg)
