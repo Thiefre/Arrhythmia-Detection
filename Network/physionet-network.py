@@ -33,7 +33,7 @@ atrial_fib_and_flutter = '195080001'
 df = pd.DataFrame()
 classes = []
 
-X_all = np.zeros((13797, 301, 12))
+X_all = np.zeros((13797, 300, 12))
 index = 0
 total_peak = 0
 
@@ -87,7 +87,7 @@ X_train, X_test,y_train,y_test=train_test_split(X_all, classes)
 # Simple CNN for ECG data
 # Simple CNN for ECG data
 model = Sequential()
-model.add(Conv1D(filters = 128, kernel_size = 5, activation = 'relu', input_shape = (301,12)))
+model.add(Conv1D(filters = 128, kernel_size = 5, activation = 'relu', input_shape = (300,12)))
 model.add(Dropout(0.25))
 model.add(Flatten())
 model.add(Dense(1, activation = 'sigmoid'))
