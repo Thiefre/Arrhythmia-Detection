@@ -25,7 +25,7 @@ def prediction():
     
     df = pd.DataFrame()
     
-    X_data =  np.zeros((1, 12, 300))
+    X_data =  np.zeros((1, 12, 500))
     
     
     index = 0
@@ -34,7 +34,7 @@ def prediction():
         
         for i in range(len(data)):
             data[i] = data[i] * 50
-        resampled = signal.resample(data, 300)
+        resampled = signal.resample(data, 500)
         plt.plot(resampled)
         plt.show()
         X_data[0][index] = resampled
